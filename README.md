@@ -119,8 +119,8 @@ User model
   username: {type: String, required: true, unique: true},
   email: {type: String, required: true, unique: true},
   password: {type: String, required: true},
-  wallet: {type: Number, required: true}
-  sales: [{type: Schema.Types.ObjectId,ref:'Sale'}]
+  wallet: {type: Number}
+  
 }
 ```
 
@@ -130,17 +130,25 @@ Sale model
 
 ```javascript
  {
-   title: {type: String, required: true},
+   
    state: {type: enum["good", "standard", "bad"], required: true}
-   Issue Nº: {type: String, required: true},
-   image: {type: String, required: true}
-   description: {type, String, required: true}
+   comicId: {type: String, required: true},
    seller: {type: Schema.Types.ObjectId,ref:'User'},
    starting_price: {type: Number}
-   bids[{user:{type: Schema.Types.ObjectId, ref: 'User'}, bid_price:{type:Number}}]
+   winning_buyer: {type: Schema.Types.ObjectId,ref:'User'}
  }
 ```
+Bid model
 
+```javascript
+ {
+   bidderId: {type: Schema.Types.ObjectId,ref:'User'}
+   saleId:  {type: Schema.Types.ObjectId,ref:'Sale'}
+   status: {type: enum["pending", "won", "lost"], required: true}
+   bid_price: {type: Number}
+   
+ }
+```
 
 <br>
 
