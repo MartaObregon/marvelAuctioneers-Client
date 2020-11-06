@@ -4,10 +4,14 @@ import LoginBox from './components/LoginBox'
 import RegisterBox from './components/RegisterBox'
 import './App.css'
 import {withRouter} from 'react-router'
+import {Switch, Link, Route} from 'react-router-dom'
+import ProfilePage from './components/ProfilePage'
 
 
 import 'bootstrap/dist/css/bootstrap.css'
 import axios from 'axios'
+import Banner from './components/Banner'
+import Saleslist from './components/Saleslist'
 
 class App extends Component {
 
@@ -91,7 +95,7 @@ class App extends Component {
       .then(()=>{
         this.setState({
           loggedInUser: null,
-        })
+        }, ()=>{this.props.history.push('/')})
       })
   }
 
@@ -108,7 +112,10 @@ class App extends Component {
           {
             
             this.state.showLoginForm ? (
+              <>
+             
               <LoginBox onLogin = {this.handleLogin}/>
+              </>
             ) : (null)
           }
           {
@@ -118,6 +125,37 @@ class App extends Component {
 
           }
         </div>
+     
+        <Banner/>
+        
+        <Switch>
+          <Route exact path="/" render= {()=>{
+            return (
+              <>
+              
+              <Saleslist/>
+              </>
+            )
+          }}/>
+         
+          <Route path ="/buy" render={
+              () =>{
+                return (
+                  <>
+                  
+                  <Saleslist/>
+                  </>
+                )
+              }
+          }>
+
+          </Route>
+          <Route path="/profile" render={(routeProps)=>{
+            return <ProfilePage loggedInUser = {loggedInUser} {...routeProps}/>
+          }}>
+
+          </Route>
+        </Switch>
           
         
       </div>

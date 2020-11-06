@@ -13,11 +13,11 @@ function MainNav(props) {
         <div>
         
             <Navbar className = "navbar" variant="dark">
-                <Navbar.Brand href="/">
+                <Link to="/">
                     <img className = "logoMA" src="../images/logoMA.png" alt="logo"></img>
-                 </Navbar.Brand>
+                 </Link>
                 <Nav className="mr-auto">
-                    <Nav.Link href="#home">Buy</Nav.Link>
+                    <Nav.Link to = "/buy" >Buy</Nav.Link>
                     <Nav.Link href="#features">Sell</Nav.Link>
                     <Nav.Link href="#pricing">About us</Nav.Link>
                 </Nav>
@@ -29,7 +29,7 @@ function MainNav(props) {
                 </div>
                     ) : (
                         <div className = "container-loggedIn">
-                            <p>Hello {props.loggedInUser.username}!</p>
+                            <p>Hello <Link to="/profile">{props.loggedInUser.username}</Link>!</p>
                             <Button onClick = {props.onLogOut}>Log out</Button>
                         </div>
                     )
