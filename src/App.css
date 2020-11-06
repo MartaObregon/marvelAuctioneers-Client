@@ -9,4 +9,8 @@
   width: 30%;
   position: absolute;
   right: 0px;
+  padding: 10px;
+  color:white;
+  display: flex;
+  justify-content: flex-end;
 }
