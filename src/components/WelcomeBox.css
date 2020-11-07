@@ -1,0 +1,21 @@
+.Wbox-container{
+    background-color: black;
+    width: 50%;
+    position: absolute;
+    right: 0px;
+    padding: 10px;
+    color:white;
+    display: flex;
+    justify-content: flex-end;
+    border-radius: 0px 10px ;
+  }
+
+  .container{
+      background-color: black;
+      padding: 10px;
+  }
+
+  .jumbotron{
+      padding: 0px;
+      
+  }

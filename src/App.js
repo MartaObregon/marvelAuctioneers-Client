@@ -12,6 +12,7 @@ import 'bootstrap/dist/css/bootstrap.css'
 import axios from 'axios'
 import Banner from './components/Banner'
 import Saleslist from './components/Saleslist'
+import WelcomeBox from './components/WelcomeBox'
 
 class App extends Component {
 
@@ -22,6 +23,8 @@ class App extends Component {
     loggedInUser: null,
     showLogRegBtn: false,
     showUserName: false,
+    showWelcome: true,
+  
     
   }
 
@@ -29,6 +32,7 @@ class App extends Component {
     this.setState({
       showLoginForm:true,
       showRegisterForm: false,
+      showWelcome: false,
     })
   }
 
@@ -36,8 +40,10 @@ class App extends Component {
     this.setState({
       showLoginForm:false,
       showRegisterForm: true,
+      showWelcome:false,
     })  
   }
+
 
 
 
@@ -100,41 +106,54 @@ class App extends Component {
   }
 
 
+  handleAddCredit = (e) => {
+    console.log('add-credit')
+    // const {credit} = e.target
+  }
+
+
   render() {
-    const {loggedInUser} = this.state
+    const {loggedInUser, showLoginForm, showRegisterForm, showWelcome} = this.state
+
     return (
       <div>
         <Nav onShowLogin ={this.handleShowLogin} onShowRegister = {this.handleShowRegister}
         loggedInUser = {loggedInUser}
         onLogOut = {this.handleLogOut}
         />
-        <div >
+
+        <div>
+
           {
-            
-            this.state.showLoginForm ? (
+            showWelcome ?(<><WelcomeBox/> </>) : (null)
+          }
+          {
+           showLoginForm ? (
               <>
-             
               <LoginBox onLogin = {this.handleLogin}/>
+              <Banner/>
               </>
             ) : (null)
           }
           {
-            this.state.showRegisterForm ? (
+            showRegisterForm ? (
+              <>
               <RegisterBox onRegister = {this.handleRegister}/>
+              <Banner/>
+              </>
             ):(null)
 
           }
         </div>
      
-        <Banner/>
+        
         
         <Switch>
+        
           <Route exact path="/" render= {()=>{
+           
             return (
-              <>
-              
-              <Saleslist/>
-              </>
+              <Banner/>
             )
           }}/>
          
@@ -150,8 +169,12 @@ class App extends Component {
           }>
 
           </Route>
-          <Route path="/profile" render={(routeProps)=>{
-            return <ProfilePage loggedInUser = {loggedInUser} {...routeProps}/>
+          <Route path="/:userId/profile" render={(routeProps)=>{
+            return <ProfilePage loggedInUser = {loggedInUser} {...routeProps}
+            onAddCredit = {this.handleAddCredit}
+            
+            
+            />
           }}>
 
           </Route>

@@ -1,0 +1,34 @@
+.container1{
+    display: flex;
+    justify-content: center;
+    margin:12px;
+}
+
+
+.card-info1{
+    padding:10px;
+    width: 80%;
+  
+   
+}
+.card-info1>img{
+    width: 40%;
+    min-width: 200px;
+    
+    
+    
+}
+
+.card-body{
+    width: 100%;
+    max-height: 300px;
+}
+.wallet-card{
+    width: 90%;
+    
+    display: flex;
+    justify-content: center;
+    
+    text-align: center;
+}
+

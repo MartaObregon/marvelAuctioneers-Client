@@ -1,10 +1,12 @@
 import React, { Component } from 'react'
 import {Card, Button} from 'react-bootstrap'
 import { Redirect } from 'react-router-dom'
+import CreditForm from './CreditForm'
+import './ProfilePage.css'
 
 export default class ProfilePage extends Component {
     render() {
-        const {loggedInUser} = this.props
+        const {loggedInUser, onAddCredit} = this.props
 
 
         if(!loggedInUser){
@@ -12,30 +14,41 @@ export default class ProfilePage extends Component {
             return <Redirect to={'/sign-in'}/>
         }
         return (
-            <div>
-                <Card style={{ width: '18rem' }}>
+            <div className="container1">
+                <Card className ="card-info1" >
                     <Card.Img variant="top" src="/images/iron-pic.jpg" />
                     <Card.Body>
-                        <Card.Title>{loggedInUser.username}</Card.Title>
+                        <Card.Title>Welcome back  {loggedInUser.username}!</Card.Title>
                         <Card.Text>
-                        <p>{loggedInUser.email}</p>
+                        <p>your email addres: {loggedInUser.email}</p>
+
+                        <Card className="text-center" className="wallet-card">
+                    <Card.Header>My Wallet</Card.Header>
+                    <Card.Body className="card-body">
+                        
+                        <Card.Text>
+                           Your credit balance: {loggedInUser.wallet_credit}$
                         </Card.Text>
-                        <Button variant="primary">Edit</Button>
+                        <CreditForm onAddCredit = {onAddCredit}/>
+                            
+                            
+                            
+                       
+                        
+                    </Card.Body>
+                    
+                </Card>
+
+
+
+
+                        </Card.Text>
+                        
                     </Card.Body>
                 </Card>
 
 
-                <Card className="text-center">
-                    <Card.Header>Your Wallet</Card.Header>
-                    <Card.Body>
-                        <Card.Title>Special title treatment</Card.Title>
-                        <Card.Text>
-                           Your credit balance: 14.99$
-                        </Card.Text>
-                        <Button variant="primary">Add Credit</Button>
-                    </Card.Body>
-                    <Card.Footer className="text-muted">2 days ago</Card.Footer>
-                </Card>
+               
             </div>
         )
     }

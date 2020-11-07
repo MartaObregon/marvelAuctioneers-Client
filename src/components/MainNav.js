@@ -29,7 +29,8 @@ function MainNav(props) {
                 </div>
                     ) : (
                         <div className = "container-loggedIn">
-                            <p>Hello <Link to="/profile">{props.loggedInUser.username}</Link>!</p>
+                            <p>Hello <Link to={`/${props.loggedInUser._id}/profile`}>{props.loggedInUser.username}</Link>!</p>
+                            <p>Wallet {props.loggedInUser.wallet_credit}$</p>
                             <Button onClick = {props.onLogOut}>Log out</Button>
                         </div>
                     )

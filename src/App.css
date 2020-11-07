@@ -13,4 +13,5 @@
   color:white;
   display: flex;
   justify-content: flex-end;
+  border-radius: 10px 0px ;
 }
