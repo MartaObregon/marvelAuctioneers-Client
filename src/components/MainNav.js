@@ -17,8 +17,8 @@ function MainNav(props) {
                     <img className = "logoMA" src="../images/logoMA.png" alt="logo"></img>
                  </Link>
                 <Nav className="mr-auto">
-                    <Nav.Link to = "/buy" >Buy</Nav.Link>
-                    <Nav.Link href="#features">Sell</Nav.Link>
+                    <Nav.Link href = "/buy" >Buy</Nav.Link>
+                    <Nav.Link href="/sell/create-sale">Sell</Nav.Link>
                     <Nav.Link href="#pricing">About us</Nav.Link>
                 </Nav>
                 {
@@ -29,7 +29,7 @@ function MainNav(props) {
                 </div>
                     ) : (
                         <div className = "container-loggedIn">
-                            <p>Hello <Link to={`/${props.loggedInUser._id}/profile`}>{props.loggedInUser.username}</Link>!</p>
+                            <p>Hello <Link to={`/profile/${props.loggedInUser._id}`}>{props.loggedInUser.username}</Link>!</p>
                             <p>Wallet {props.loggedInUser.wallet_credit}$</p>
                             <Button onClick = {props.onLogOut}>Log out</Button>
                         </div>

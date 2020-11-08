@@ -1,23 +1,42 @@
-import React from 'react'
-import InputGroup from 'react-bootstrap/InputGroup'
-import {FormControl, Button} from 'react-bootstrap'
+import React, { Component } from 'react'
+import {InputGroup, Button, FormControl} from 'react-bootstrap'
 
-export default function CreditForm(props) {
-    
-    return (
-        <div>
+
+export default class CreditForm extends Component {
+
+    state = {
+        user: {}
+    }
+
+    componentDidMount(){
+        // let id = this.props.match.params.id
+        console.log(this.props)
+        // axios.get(`http://localhost:5000/api/profile/${id}`)
+        //     .then((response) => {
+        //         this.setState({
+        //             user: response.data
+        //         })
+        //     })
+    }
+
+
+    render() {
+        return (
+            <div>
+                
             <InputGroup className="mb-3">
                 <InputGroup.Prepend>
                 <InputGroup.Text>$</InputGroup.Text>
                 </InputGroup.Prepend>
-                <FormControl aria-label="Amount (to the nearest dollar)"  name="credit"/>
+                <FormControl   value="wallet_credit"/>
                 <InputGroup.Append>
                 <InputGroup.Text>.00</InputGroup.Text>
                 </InputGroup.Append>
                  
-                <Button onClick = {props.onAddCredit} variant="primary">Add Credit</Button>
+                <Button  onClick={()=>{this.props.onAddCredit(this.state.user)}} type = "submit" variant="primary">Add Credit</Button>
             </InputGroup>
-
-        </div>
-    )
+            </div>
+        )
+    }
 }
+

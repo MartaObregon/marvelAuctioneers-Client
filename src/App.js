@@ -13,19 +13,36 @@ import axios from 'axios'
 import Banner from './components/Banner'
 import Saleslist from './components/Saleslist'
 import WelcomeBox from './components/WelcomeBox'
+import AddSale from './components/AddSale'
 
 class App extends Component {
 
 
   state = {
+    
     showLoginForm: false,
     showRegisterForm: false,
     loggedInUser: null,
     showLogRegBtn: false,
     showUserName: false,
-    showWelcome: true,
+    showWelcome: false,
+    salesList: []
   
     
+  }
+
+  getallsales = () => {
+    axios.get('https://gateway.marvel.com:443/v1/public/characters?nameStartsWith=sp&limit=10&apikey=c6d4ef47b92e1a1aed000aac57d94849')
+      .then((response)=>{
+        console.log(response.data.results)
+        this.setState({
+          salesList: response.data
+        })
+      })
+  }
+  componentDidMount(){
+    
+    this.getallsales()
   }
 
   handleShowLogin = () => {
@@ -76,6 +93,7 @@ class App extends Component {
   handleLogin = (e)=>{
     e.preventDefault();
     const {email, password} = e.target
+    
 
     axios.post('http://localhost:5000/api/login', {
       email: email.value,
@@ -86,6 +104,7 @@ class App extends Component {
           loggedInUser: response.data,
           showLoginForm: false,
           showRegisterForm: false,
+          showWelcome: false,
         }, ()=>{
           this.props.history.push('/')
         })
@@ -106,11 +125,38 @@ class App extends Component {
   }
 
 
-  handleAddCredit = (e) => {
-    console.log('add-credit')
-    // const {credit} = e.target
+  handleAddCredit = (user) => {
+    
+    axios.patch(`http://localhost:5000/api/profile/${user._id}`, {
+      wallet_credit: user.wallet_credit
+    })
+      .then(()=>{
+        console.log(user)
+        this.setState({
+          loggedInUser: user
+        })
+      })
+ 
   }
 
+  handleAddSale = (e) =>{
+    e.preventDefault()
+    const {expiring_date, state, starting_price} = e.target
+    const {salesList} = this.state
+    let newSale = {
+      expiring_date: expiring_date.value,
+      state: state.value,
+      starting_price: starting_price.value
+    }
+
+    axios.post('http://localhost:5000/api/add-sale', newSale)
+      .then((response)=>{
+        this.setState({
+          salesList: [newSale, ...salesList]
+        })
+      })
+
+  }
 
   render() {
     const {loggedInUser, showLoginForm, showRegisterForm, showWelcome} = this.state
@@ -161,7 +207,6 @@ class App extends Component {
               () =>{
                 return (
                   <>
-                  
                   <Saleslist/>
                   </>
                 )
@@ -169,15 +214,27 @@ class App extends Component {
           }>
 
           </Route>
-          <Route path="/:userId/profile" render={(routeProps)=>{
-            return <ProfilePage loggedInUser = {loggedInUser} {...routeProps}
+         
+          <Route path="/profile/:id" render={(routeProps)=>{
+            return <ProfilePage  loggedInUser = {loggedInUser}
             onAddCredit = {this.handleAddCredit}
+            {...routeProps}
+            
             
             
             />
           }}>
+           
 
           </Route>
+          <Route exact path="/sell/create-sale" render = {(routeProps)=>{
+            return <AddSale loggedInUser = {loggedInUser}
+            {...routeProps}
+            onAddSale = {this.handleAddSale}
+            showWelcome = {showWelcome}
+            />
+          }}
+            ></Route>
         </Switch>
           
         
