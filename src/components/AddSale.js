@@ -35,6 +35,10 @@ export default class AddSale extends Component {
                         </InputGroup.Append>
                     </Form.Group>
                     <Form.Group controlId="exampleForm.ControlInput1">
+                        <Form.Label>Release Year</Form.Label>
+                        <Form.Control name="release_year" type="number"/>
+                    </Form.Group>
+                    <Form.Group controlId="exampleForm.ControlInput1">
                         <Form.Label>Image URL</Form.Label>
                         <Form.Control name="image_url" type="text"/>
                     </Form.Group>

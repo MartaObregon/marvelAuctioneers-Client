@@ -32,11 +32,10 @@ class App extends Component {
   }
 
   getallsales = () => {
-    axios.get('https://gateway.marvel.com:443/v1/public/characters?nameStartsWith=sp&limit=10&apikey=c6d4ef47b92e1a1aed000aac57d94849')
+    axios.get('http://localhost:5000/api/search')
       .then((response)=>{
-        console.log(response.data.results)
         this.setState({
-          salesList: response.data
+          salesList: [...response.data]
         })
       })
   }
@@ -145,7 +144,8 @@ class App extends Component {
   handleAddSale = (e) =>{
     e.preventDefault()
     console.log(e.target.title.value)
-    const {title, description, expiring_date, state, starting_price, image_url} = e.target
+    const {title, description, expiring_date, state, starting_price, image_url, release_year} = e.target
+    
     const {salesList} = this.state
     let newSale = {
       title: title.value,
@@ -153,11 +153,13 @@ class App extends Component {
       expiring_date: expiring_date.value,
       state: state.value,
       starting_price: starting_price.value,
+      release_year: release_year.value,
       image_url: image_url.value
     }
 
     axios.post('http://localhost:5000/api/profile/add-sale', newSale, {withCredentials:true})
       .then((response)=>{
+        console.log(response.data)
         this.setState({
           salesList: [response.data, ...salesList]
         })
@@ -166,7 +168,7 @@ class App extends Component {
   }
 
   render() {
-    const {loggedInUser, showLoginForm, showRegisterForm, showWelcome} = this.state
+    const {loggedInUser, showLoginForm, showRegisterForm, showWelcome, salesList} = this.state
 
     return (
       <div>
@@ -203,43 +205,24 @@ class App extends Component {
         
         <Switch>
         
-          <Route exact path="/" render= {()=>{
-           
-            return (
-              <Banner/>
-            )
+          <Route exact path="/" render= {()=>{return (
+            <>
+          <Banner/>
+          <Saleslist salesList = {salesList}/>
+          </>)
           }}/>
          
-          <Route path ="/buy" render={
-              () =>{
-                return (
-                  <>
-                  <Saleslist/>
-                  </>
-                )
-              }
-          }/>
-
           
-         
-          <Route path="/profile/:id" render={(routeProps)=>{
+          <Route exact path="/profile/:id" render={(routeProps)=>{
             return <ProfilePage  loggedInUser = {loggedInUser}
             onAddCredit = {this.handleAddCredit}
-            {...routeProps}
-            
-            
-            
-            />
+            {...routeProps}/>
           }}/>
-           
-
-          
-          <Route  path="/sell/create-sale" render = {(routeProps)=>{
-            return <AddSale loggedInUser = {loggedInUser}
-            onAddSale = {this.handleAddSale}
-            {...routeProps}
-            />
-          }}/>
+         <Route path = "/profile/:id/create-sale" render={()=>{return <AddSale 
+         loggedInUser = {loggedInUser}
+         salesList = {salesList}
+         onAddSale = {this.handleAddSale}
+         />}}/>
             
         </Switch>
           

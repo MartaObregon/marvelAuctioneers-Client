@@ -18,7 +18,7 @@ function MainNav(props) {
                  </Link>
                 <Nav className="mr-auto">
                     <Nav.Link href = "/buy" >Buy</Nav.Link>
-                    <Nav.Link href="/sell/create-sale">Sell</Nav.Link>
+                    {/* <Nav.Link href="/sell/create-sale">Sell</Nav.Link> */}
                     <Nav.Link href="#pricing">About us</Nav.Link>
                 </Nav>
                 {

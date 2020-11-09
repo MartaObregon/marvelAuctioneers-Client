@@ -1,11 +1,12 @@
 import React, { Component } from 'react'
 import {Card, Button} from 'react-bootstrap'
-import { Redirect } from 'react-router-dom'
+import { Redirect, Link } from 'react-router-dom'
 import axios from 'axios'
 // import CreditForm from './CreditForm'
 import {InputGroup, FormControl} from 'react-bootstrap'
 import './ProfilePage.css'
 import {withRouter} from 'react-router'
+import MybidsChart from './MybidsChart'
 
  class ProfilePage extends Component {
 
@@ -46,50 +47,44 @@ import {withRouter} from 'react-router'
                     <Card.Body>
                         <Card.Title>Welcome back  {loggedInUser.username}!</Card.Title>
                         
-                        {/* <p>your email addres: {loggedInUser.email}</p> */}
+                        <p>your email addres: {loggedInUser.email}</p>
 
-                        {/* <Card className="text-center" > */}
-                    <Card.Header>My Wallet</Card.Header>
-                    <Card.Body className="card-body">
-                        
-                        <Card.Text>
-                           Your credit balance: {loggedInUser.wallet_credit}$
+                    <Card className = "wallet-container"> 
+                        <Card.Header className="title-wallet">My Wallet</Card.Header>
+                        <Card.Body className="card-body">
+                            
+                            <Card.Text>
+                            Your credit balance: {loggedInUser.wallet_credit}$
 
-                        </Card.Text>
+                            </Card.Text>
 
-                        <form onSubmit= {onAddCredit}>
-                <InputGroup className="mb-3">
-                <InputGroup.Prepend>
-                <InputGroup.Text ></InputGroup.Text>
-                </InputGroup.Prepend>
-                <FormControl name="wallet_credit"/>
-                <InputGroup.Append>
-                <InputGroup.Text>.00</InputGroup.Text>
-                </InputGroup.Append>
-                 
-                <Button  type = "submit" variant="primary">Add Credit</Button>
-            </InputGroup>
-                </form>
+                                <form onSubmit= {onAddCredit}>
+                                <InputGroup className="mb-3">
+                                <InputGroup.Prepend>
+                                <InputGroup.Text >$</InputGroup.Text>
+                                </InputGroup.Prepend>
+                                <FormControl name="wallet_credit"/>
+                                <InputGroup.Append>
+                                <InputGroup.Text>.00</InputGroup.Text>
+                                </InputGroup.Append>
+                                
+                                <Button  type = "submit" variant="primary">Add Credit</Button>
+                                </InputGroup>
+                                </form>
+
+                        </Card.Body>
                         
-                            
-                            
-                            
-                       
-                        
+                    </Card>
+                     <Button className="addSale-btn"><Link to= {`/profile/${loggedInUser._id}/create-sale`}>
+                        Create Sale</Link></Button>
                     </Card.Body>
+
                     
-            
-
-
-
-
-                        
-                        
-                    </Card.Body>
                
                 </Card>
                 
                 <h2>My Bids</h2>
+                <MybidsChart loggedInUser={loggedInUser}/>
 
                
             </div>

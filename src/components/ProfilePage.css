@@ -1,34 +1,61 @@
 .container1{
+    /* max-width: 1000px; */
     display: flex;
     justify-content: center;
+    align-items: center;
+    flex-direction: column;
     margin:12px;
 }
 
 
 .card-info1{
-    padding:10px;
-    width: 80%;
+    /* padding:10px; */
+    /* width: 100%; */
+    display: flex;
+    justify-content: center;
+    flex-direction: row;
+    
   
    
 }
 .card-info1>img{
     width: 40%;
-    min-width: 200px;
+    margin:10px;
+    max-width: 200px;
+    max-height:320px;
     
     
     
+}
+.wallet-container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    max-width: 500px;
+    min-width: 100px;
+    
+
 }
 
-.card-body{
-    width: 100%;
-    max-height: 300px;
+.addSale-btn{
+    margin-top: 10px;
+    
 }
-.wallet-card{
+.addSale-btn>a{
+    color:white;
+}
+
+.title-wallet{
+    width: 100%;
+}
+
+
+/* .wallet-card{
     width: 90%;
     
     display: flex;
     justify-content: center;
     
     text-align: center;
-}
+} */
 
