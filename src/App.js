@@ -72,7 +72,7 @@ class App extends Component {
       email: email.value,
       username: username.value,
       password: password.value
-    })
+    }, {withCredentials:true})
     
       .then((response)=>{
         console.log('registered:')
@@ -98,7 +98,7 @@ class App extends Component {
     axios.post('http://localhost:5000/api/login', {
       email: email.value,
       password: password.value
-    })
+    },{withCredentials:true})
       .then((response)=>{
         this.setState({
           loggedInUser: response.data,
@@ -116,7 +116,7 @@ class App extends Component {
 
   handleLogOut = () =>{
     console.log('logout')
-    axios.post('http://localhost:5000/api/logout')
+    axios.post('http://localhost:5000/api/logout', {}, {withCredentials:true})
       .then(()=>{
         this.setState({
           loggedInUser: null,
@@ -125,15 +125,18 @@ class App extends Component {
   }
 
 
-  handleAddCredit = (user) => {
+  handleAddCredit = (e) => {
+    e.preventDefault()
+
     
-    axios.patch(`http://localhost:5000/api/profile/${user._id}`, {
-      wallet_credit: user.wallet_credit
-    })
-      .then(()=>{
-        console.log(user)
+    console.log(e.target.wallet_credit.value)
+    axios.patch(`http://localhost:5000/api/profile/edit`, {
+      wallet_credit: e.target.wallet_credit.value,
+    },{withCredentials:true})
+      .then((response)=>{
+        console.log(response.data)
         this.setState({
-          loggedInUser: user
+          loggedInUser: response.data
         })
       })
  
@@ -211,9 +214,9 @@ class App extends Component {
                   </>
                 )
               }
-          }>
+          }/>
 
-          </Route>
+          
          
           <Route path="/profile/:id" render={(routeProps)=>{
             return <ProfilePage  loggedInUser = {loggedInUser}
@@ -223,18 +226,18 @@ class App extends Component {
             
             
             />
-          }}>
+          }}/>
            
 
-          </Route>
-          <Route exact path="/sell/create-sale" render = {(routeProps)=>{
+          
+          {/* <Route exact path="/sell/create-sale" render = {(routeProps)=>{
             return <AddSale loggedInUser = {loggedInUser}
             {...routeProps}
             onAddSale = {this.handleAddSale}
             showWelcome = {showWelcome}
             />
-          }}
-            ></Route>
+          }}/> */}
+            
         </Switch>
           
         

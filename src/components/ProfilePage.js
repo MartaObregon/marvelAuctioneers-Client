@@ -5,8 +5,9 @@ import axios from 'axios'
 // import CreditForm from './CreditForm'
 import {InputGroup, FormControl} from 'react-bootstrap'
 import './ProfilePage.css'
+import {withRouter} from 'react-router'
 
-export default class ProfilePage extends Component {
+ class ProfilePage extends Component {
 
 
     state = {
@@ -35,39 +36,41 @@ export default class ProfilePage extends Component {
 
         if(!loggedInUser){
             
-            this.setState({
-                showWelcome: false
-            })
+           return <Redirect to = {'/'}/>
         }
+
         return (
             <div className="container1">
                 <Card className ="card-info1" >
                     <Card.Img variant="top" src="/images/iron-pic.jpg" />
                     <Card.Body>
                         <Card.Title>Welcome back  {loggedInUser.username}!</Card.Title>
-                        <Card.Text>
-                        <p>your email addres: {loggedInUser.email}</p>
+                        
+                        {/* <p>your email addres: {loggedInUser.email}</p> */}
 
-                        <Card className="text-center" >
+                        {/* <Card className="text-center" > */}
                     <Card.Header>My Wallet</Card.Header>
                     <Card.Body className="card-body">
                         
                         <Card.Text>
                            Your credit balance: {loggedInUser.wallet_credit}$
+
                         </Card.Text>
 
-
-                        <InputGroup className="mb-3">
+                        <form onSubmit= {onAddCredit}>
+                <InputGroup className="mb-3">
                 <InputGroup.Prepend>
-                <InputGroup.Text>$</InputGroup.Text>
+                <InputGroup.Text ></InputGroup.Text>
                 </InputGroup.Prepend>
-                <FormControl />
+                <FormControl name="wallet_credit"/>
                 <InputGroup.Append>
                 <InputGroup.Text>.00</InputGroup.Text>
                 </InputGroup.Append>
                  
-                <Button  onClick={()=>{this.props.onAddCredit(this.state.user)}} type = "submit" variant="primary">Add Credit</Button>
+                <Button  type = "submit" variant="primary">Add Credit</Button>
             </InputGroup>
+                </form>
+                        
                             
                             
                             
@@ -75,19 +78,23 @@ export default class ProfilePage extends Component {
                         
                     </Card.Body>
                     
-                </Card>
+            
 
 
 
 
-                        </Card.Text>
+                        
                         
                     </Card.Body>
+               
                 </Card>
-
+                
+                <h2>My Bids</h2>
 
                
             </div>
         )
     }
 }
+
+export default withRouter(ProfilePage)
