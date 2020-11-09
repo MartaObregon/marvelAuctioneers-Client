@@ -144,18 +144,22 @@ class App extends Component {
 
   handleAddSale = (e) =>{
     e.preventDefault()
-    const {expiring_date, state, starting_price} = e.target
+    console.log(e.target.title.value)
+    const {title, description, expiring_date, state, starting_price, image_url} = e.target
     const {salesList} = this.state
     let newSale = {
+      title: title.value,
+      description: description.value,
       expiring_date: expiring_date.value,
       state: state.value,
-      starting_price: starting_price.value
+      starting_price: starting_price.value,
+      image_url: image_url.value
     }
 
-    axios.post('http://localhost:5000/api/add-sale', newSale)
+    axios.post('http://localhost:5000/api/profile/add-sale', newSale, {withCredentials:true})
       .then((response)=>{
         this.setState({
-          salesList: [newSale, ...salesList]
+          salesList: [response.data, ...salesList]
         })
       })
 
@@ -230,13 +234,12 @@ class App extends Component {
            
 
           
-          {/* <Route exact path="/sell/create-sale" render = {(routeProps)=>{
+          <Route  path="/sell/create-sale" render = {(routeProps)=>{
             return <AddSale loggedInUser = {loggedInUser}
-            {...routeProps}
             onAddSale = {this.handleAddSale}
-            showWelcome = {showWelcome}
+            {...routeProps}
             />
-          }}/> */}
+          }}/>
             
         </Switch>
           
