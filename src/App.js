@@ -8,12 +8,14 @@ import {Switch, Link, Route} from 'react-router-dom'
 import ProfilePage from './components/ProfilePage'
 
 
+
 import 'bootstrap/dist/css/bootstrap.css'
 import axios from 'axios'
 import Banner from './components/Banner'
 import Saleslist from './components/Saleslist'
 import WelcomeBox from './components/WelcomeBox'
 import AddSale from './components/AddSale'
+import SaleDetail from './components/SaleDetail'
 
 class App extends Component {
 
@@ -211,6 +213,7 @@ class App extends Component {
           <Saleslist salesList = {salesList}/>
           </>)
           }}/>
+          <Route path = "/detail/:saleid" render={(routeProps)=>{return <SaleDetail {...routeProps}/>}}/>
          
           
           <Route exact path="/profile/:id" render={(routeProps)=>{

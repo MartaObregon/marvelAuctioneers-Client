@@ -1,16 +1,11 @@
-/* .container1{
-    width: 80%;
-} */
-/* 
-.list-box{
-    max-width: 70%;
-    padding: 20px;
+
+
+.footer{
     display: flex;
-    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
 
-} */
-
-/* .eachcard{
-    width: 100px;
-    height: 200px
-} */
+.footer>button>a{
+    color:white;
+}
