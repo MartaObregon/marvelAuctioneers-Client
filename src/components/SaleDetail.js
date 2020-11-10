@@ -1,10 +1,20 @@
 import React, { Component } from 'react'
 import axios from 'axios'
 import {Card, Button} from 'react-bootstrap'
+import BidChart from './BidChart'
 export default class SaleDetail extends Component {
 
     state={
-        sale:{}
+        sale:{},
+        showBidChart: false,
+    }
+
+
+    handleShowBidChart = ()=>{
+        this.setState({
+            showBidChart:true,
+        })
+
     }
 
     componentDidMount(){
@@ -21,7 +31,7 @@ export default class SaleDetail extends Component {
     }
 
     render() {
-        const {sale} = this.state
+        const {sale, showBidChart} = this.state
         return (
             <div style={{width:"700px"}}>
                 <img alt="comic" src = {sale.image_url} ></img>
@@ -29,7 +39,11 @@ export default class SaleDetail extends Component {
                 <h2><small>Starting price</small> {sale.starting_price}$</h2>
                 <h3>{sale.expiring_date}</h3>
                 <p>{sale.description}</p>
-                <button>Show BidChart</button>
+                <button onClick={this.handleShowBidChart}>Show BidChart</button>
+
+                {
+                    showBidChart ? (<BidChart sale={sale}/>) : (null)
+                }
                 
             </div>
         )
