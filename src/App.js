@@ -28,7 +28,8 @@ class App extends Component {
     showLogRegBtn: false,
     showUserName: false,
     showWelcome: false,
-    salesList: []
+    salesList: [],
+    
   
     
   }
@@ -63,7 +64,7 @@ class App extends Component {
   }
 
 
-
+ 
 
 
   handleRegister = (e) =>{
@@ -128,7 +129,7 @@ class App extends Component {
 
   handleAddCredit = (e) => {
     e.preventDefault()
-
+    const {loggedInUser} = this.state
     
     console.log(e.target.wallet_credit.value)
     axios.patch(`http://localhost:5000/api/profile/edit`, {
@@ -138,7 +139,7 @@ class App extends Component {
         console.log(response.data)
         this.setState({
           loggedInUser: response.data
-        })
+        }, ()=>{this.props.history.push(`/profile/${loggedInUser._id}`)})
       })
  
   }
@@ -164,7 +165,7 @@ class App extends Component {
         console.log(response.data)
         this.setState({
           salesList: [response.data, ...salesList]
-        })
+        }, ()=>{this.props.history.push('/')})
       })
 
   }

@@ -5,6 +5,10 @@ import {Link} from 'react-router-dom'
 
 
 export default function Saleslist(props) {
+
+
+   
+
     return (
         <div className="container1">
             <h1>ONGOING SALES</h1>
@@ -24,7 +28,11 @@ export default function Saleslist(props) {
                             <Card.Text>
                                 <p>Release year: {sale.release_year}</p>   
                                 <p>Starting price: {sale.starting_price}$</p>
-                                <p>Sale expiring: {sale.expiring_date}</p>
+                                <p>Sale expiring: 
+                                
+                                   {sale.expiring_date}
+                                
+                                </p>
                             </Card.Text>
                             </Card.Body>
                             <Card.Footer className="footer">

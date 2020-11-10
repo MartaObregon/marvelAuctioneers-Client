@@ -7,15 +7,31 @@ export default class BidChart extends Component {
 
     state={
         showBidInput: false,
-        bidList: []
+        bidList: [],
+        seller: {},
+
     }
     componentDidMount(){
         this.getAllBids()
+        this.getName()
     }
     handleShowBidInput = ()=>{
         this.setState({
             showBidInput: true
         })
+    }
+
+    getName = ()=>{
+        const {sale} = this.props
+        axios.get(`http://localhost:5000/api/sale/username/${sale.seller}`)
+        .then((response)=>{ 
+            console.log(response.data)
+            this.setState({
+                seller: response.data
+            })
+        })
+
+        
     }
 
     getAllBids = () =>{
@@ -27,6 +43,8 @@ export default class BidChart extends Component {
             })
         })
     }
+
+   
 
     handleAddBid = (e) =>{
     e.preventDefault()
@@ -49,7 +67,7 @@ export default class BidChart extends Component {
 
     render() {
         const {sale} = this.props
-        const {bidList} = this.state
+        const {bidList, seller} = this.state
         return (
             <div>
                 <Table striped bordered hover variant="dark">
@@ -64,27 +82,26 @@ export default class BidChart extends Component {
                 <tbody>
                     <tr>
                     <td>Starting Bid</td>
-                    <td>{sale.seller}</td>
+                    <td>{seller.username}</td>
                     <td>{sale.starting_price}$</td>
                     <td></td>
                     </tr>
-                    {   bidList? (bidList.map((bid)=>{
-                            
-                                return (
-                                <tr>
-                                <td></td>
-                                <td>{bid.bidder_id}</td>
-                                <td>{bid.bid_price}$</td>
-                                <td>{bid.createdAt}</td>
-                                </tr>
-                            )
-                            
-                            
-                        }).sort((a,b)=>{
+                    {   bidList? (bidList.sort((a,b)=>{
                             if(a.bid_price>b.bid_price){return 1}
                             else if(a.bid_price<b.bid_price){return -1}
                             else{return 0}
-                        })): (null)
+                        }).map((bid)=>{
+                            
+                            return (
+                            <tr>
+                            <td></td>
+                            <td>{bid.bidder_username}</td>
+                            <td>{bid.bid_price}$</td>
+                            <td>{bid.createdAt}</td>
+                            </tr>
+                        )
+                    })
+                        ): (null)
                         
                     }
                     <tr>

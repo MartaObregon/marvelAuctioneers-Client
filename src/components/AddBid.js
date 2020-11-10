@@ -1,6 +1,7 @@
 import React from 'react'
 import {InputGroup, FormControl, Button} from 'react-bootstrap'
-import { propTypes } from 'react-bootstrap/esm/Image'
+
+
 
 export default function AddBid(props) {
     return (
