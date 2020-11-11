@@ -9,7 +9,7 @@ export default class MybidsChart extends Component {
 
     state={
         myBidList: [],
-        sale: [],
+        salesBided: [],
     }
 
     componentDidMount(){
@@ -30,10 +30,9 @@ export default class MybidsChart extends Component {
     getsaleInfo=()=>{
         const {loggedInUser} = this.props
         axios.get(`http://localhost:5000/api/profile/sale/${loggedInUser._id}`)
-        .then((response)=>{
-            console.log(response.data)
-            this.setState({
-                
+        .then((mybids)=>{
+            mybids.map((bid)=>{
+                return bid.sale_id
             })
         })
     }

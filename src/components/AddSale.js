@@ -25,7 +25,7 @@ export default class AddSale extends Component {
                     </Form.Group>
                     <Form.Group controlId="exampleForm.ControlInput1">
                         <Form.Label>Expiring date</Form.Label>
-                        <Form.Control name="expiring_date" type="date"/>
+                        <Form.Control name="expiring_date" type="datetime-local"/>
                     </Form.Group>
                     <Form.Group controlId="exampleForm.ControlInput1">
                         <Form.Label>Starting price</Form.Label>

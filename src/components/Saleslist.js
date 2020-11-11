@@ -2,7 +2,7 @@ import React from 'react'
 import {Container, Row, Col, Card, Button} from 'react-bootstrap'
 import './Salelist.css'
 import {Link} from 'react-router-dom'
-
+import moment from 'moment'
 
 export default function Saleslist(props) {
 
@@ -30,7 +30,7 @@ export default function Saleslist(props) {
                                 <p>Starting price: {sale.starting_price}$</p>
                                 <p>Sale expiring: 
                                 
-                                   {sale.expiring_date}
+                                   {moment(sale.expiring_date).format('MMMM Do YYYY, h:mm a')}
                                 
                                 </p>
                             </Card.Text>

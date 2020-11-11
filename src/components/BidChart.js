@@ -1,73 +1,15 @@
 import React, { Component } from 'react'
-import axios from 'axios'
 import AddBid from './AddBid'
 import {Table} from 'react-bootstrap'
+import moment from 'moment'
 
 export default class BidChart extends Component {
 
-    state={
-        showBidInput: false,
-        bidList: [],
-        seller: {},
-
-    }
-    componentDidMount(){
-        this.getAllBids()
-        this.getName()
-    }
-    handleShowBidInput = ()=>{
-        this.setState({
-            showBidInput: true
-        })
-    }
-
-    getName = ()=>{
-        const {sale} = this.props
-        axios.get(`http://localhost:5000/api/sale/username/${sale.seller}`)
-        .then((response)=>{ 
-            console.log(response.data)
-            this.setState({
-                seller: response.data
-            })
-        })
-
-        
-    }
-
-    getAllBids = () =>{
-        const {sale} = this.props
-        axios.get(`http://localhost:5000/api/sale/${sale._id}`)
-        .then((response)=>{
-            this.setState({
-                bidList: [...response.data]
-            })
-        })
-    }
-
-   
-
-    handleAddBid = (e) =>{
-    e.preventDefault()
-    const {bid_price} = e.target
-    const {bidList} = this.state 
-    const {sale} = this.props  
-
-    let newBid = { 
-        bid_price: bid_price.value
-    }
-
-    axios.post(`http://localhost:5000/api/sale/${sale._id}`, newBid, {withCredentials:true})
-        .then((response)=>{
-            this.setState({
-                bidList: [response.data,...bidList]
-            })
-        })
-
-    }
+  
 
     render() {
-        const {sale} = this.props
-        const {bidList, seller} = this.state
+        const {sale, seller, bidList, onShowBidInput, onAddBid, showBidInput} = this.props
+        
         return (
             <div>
                 <Table striped bordered hover variant="dark">
@@ -87,8 +29,8 @@ export default class BidChart extends Component {
                     <td></td>
                     </tr>
                     {   bidList? (bidList.sort((a,b)=>{
-                            if(a.bid_price>b.bid_price){return 1}
-                            else if(a.bid_price<b.bid_price){return -1}
+                            if(a.createdAt>b.createdAt){return 1}
+                            else if(a.createdAt<b.createdAt){return -1}
                             else{return 0}
                         }).map((bid)=>{
                             
@@ -97,7 +39,8 @@ export default class BidChart extends Component {
                             <td></td>
                             <td>{bid.bidder_username}</td>
                             <td>{bid.bid_price}$</td>
-                            <td>{bid.createdAt}</td>
+                            <td>{moment(bid.createdAt).format('MMMM Do YYYY, h:mm a')}</td> 
+                            <td></td>
                             </tr>
                         )
                     })
@@ -117,10 +60,10 @@ export default class BidChart extends Component {
                     </tr>
                 </tbody>
             </Table>
-            <button onClick={this.handleShowBidInput}>Bid</button>
+            <button onClick={onShowBidInput}>Bid</button>
 
             {
-                this.state.showBidInput? (<AddBid onAddBid = {this.handleAddBid}/>):(null)
+                showBidInput? (<AddBid onAddBid = {onAddBid}/>):(null)
             }
             </div>
         )
