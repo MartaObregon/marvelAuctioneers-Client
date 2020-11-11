@@ -25,28 +25,41 @@ export default class SaleDetail extends Component {
     }
 
     componentDidMount(){
-        this.handleSaleEnd()
+       
         let saleId = this.props.match.params.saleid
         console.log(this.props.match.params.saleid)
         axios.get(`${API_URL}/detail/${saleId}`)
             .then((response)=>{
+               
                 console.log(new Date(), new Date(response.data.expiring_date))
                 this.setState({
                     saleOpen: new Date () < new Date(response.data.expiring_date) ,
                     sale: response.data,
                     
                 })
+                this.getAllBids()
+                this.handleSaleEnd()
             })
-        this.getAllBids()
-        this.getName()
+        
+            
+            
+        // this.getName()
         
 
     }
 
 
     handleSaleEnd = () =>{
-        const {sale} = this.state
-        console.log(sale)
+        
+        const {sale, saleOpen, bidList} = this.state
+        if(!saleOpen){
+            axios.patch(`${API_URL}/close/${sale._id}`)
+            .then((response)=>{
+                console.log(bidList)
+                console.log('HEYYYYY', response.data)
+            })
+        }
+        
     }
 
     handleShowBidInput = ()=>{
@@ -100,7 +113,7 @@ export default class SaleDetail extends Component {
     }
 
     render() {
-        const {sale, showBidChart, seller, bidList, onShowBidInput, showBidInput} = this.state
+        const {sale, showBidChart, seller, bidList, onShowBidInput, showBidInput, saleOpen} = this.state
         return (
             <div style={{width:"700px"}}>
                 <img alt="comic" src = {sale.image_url} ></img>
@@ -113,17 +126,32 @@ export default class SaleDetail extends Component {
                 <h2><small>Starting price</small> {sale.starting_price}$</h2>
                 <h3>Expiring:<small> {moment(sale.expiring_date).format('MMMM Do YYYY, h:mm a')}</small></h3>
                 <p>{sale.description}</p>
-                <button onClick={this.handleShowBidChart}>Show BidChart</button>
 
                 {
-                    showBidChart ? (<BidChart sale={sale}
-                                    seller = {seller}
-                                    bidList = {bidList}
-                                    onShowBidInput = {this.handleShowBidInput}
-                                    showBidInput = {showBidInput}
-                                    onAddBid = {this.handleAddBid}
-                    />) : (null)
+                    saleOpen ? (
+                    <div>
+                    <button onClick={this.handleShowBidChart}>Show BidChart</button>
+
+                    {
+                        showBidChart ? (<BidChart sale={sale}
+                                        seller = {seller}
+                                        bidList = {bidList}
+                                        onShowBidInput = {this.handleShowBidInput}
+                                        showBidInput = {showBidInput}
+                                        onAddBid = {this.handleAddBid}
+                        />) : (null)
+                    }
+                    </div>
+                    ) : (
+                        <>
+                        <div>
+                            <h3 style={{backgroundColor:"red", color: "white"}}>SALE CLOSED</h3>
+                            <p>Sold for {sale.winning_bid}$ to {sale.winning_buyer}</p>
+                        </div>
+                        </>
+                    )
                 }
+                
                 
             </div>
         )

@@ -11,6 +11,8 @@ export default class MybidsChart extends Component {
     state={
         myBidList: [],
         salesBided: [],
+        showCheckOut: false,
+        updatedUser: this.props.loggedInUser
     }
 
     componentDidMount(){
@@ -38,9 +40,31 @@ export default class MybidsChart extends Component {
         })
     }
 
+    handleShowChekOutBox = () =>{
+        const {loggedInUser} = this.props
+        this.setState({
+            showCheckOut: true,
+        })
+          
+    }
+
+    handlePayment = () =>{
+        const {loggedInUser} = this.props
+        console.log(this.state.salesBided)
+
+        axios.patch(`${API_URL}/profile/sale/payment`)
+        .then((response)=>{
+            console.log(response.data)
+            
+            this.setState({
+                updatedUser: response.data
+            })
+        })
+    }
+
     render() {
         const {salesList, loggedInUser} = this.props
-        const {myBidList} = this.state
+        const {myBidList, showCheckOut} = this.state
         return (
             <div>
                 <Table striped bordered hover>
@@ -52,7 +76,6 @@ export default class MybidsChart extends Component {
                         <th>Starting price</th>
                         <th>Expiring date</th>
                         <th>My bid</th>
-                        <th>Status</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -65,31 +88,38 @@ export default class MybidsChart extends Component {
                                 <td>Starting price goes here</td>
                                 <td>Expiring date goes here</td>
                                 <td>{bid.bid_price}$</td>
-                                <td>{bid.status}</td>
-                                </tr>
+                                {
+                                    bid.winner ? (
+                                        <>
+                                        <td>
+                                            Congratz! you won the sale!
+                                            <button onClick={this.handleShowChekOutBox} style={{backgroundColor:"green", color:'white'}}>Go to Checkout</button>
+                                        </td>
+                                        </>
+                                    ) : (null)
+                                }
+                                
+                        {
+                                showCheckOut ? (
+                                    <div>
+                                        <p>To pay {bid.bid_price}$</p>
+                                        <p>Current Balance: {loggedInUser.wallet_credit}$</p>
+                                        <button onClick={this.handlePayment}>Complete Payment</button>
+                                    </div>
+                                ): (null)
+                        }
+
+                        </tr>
                            )}) 
                         }
-                        <tr>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        </tr>
-                        <tr>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        </tr>
+                    
                       
                     </tbody>
                     </Table>
+
+                    
+
+                   
             </div>
         )
     }
