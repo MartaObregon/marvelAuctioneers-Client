@@ -3,6 +3,7 @@ import React, { Component } from 'react'
 import {Table} from 'react-bootstrap'
 import axios from 'axios'
 import {Link} from 'react-router-dom'
+import {API_URL} from '../config'
 
 export default class MybidsChart extends Component {
 
@@ -19,7 +20,7 @@ export default class MybidsChart extends Component {
 
     getAllMyBids = () =>{
         const {loggedInUser} = this.props
-        axios.get(`http://localhost:5000/api/profile/${loggedInUser._id}/mybids`, {}, {withCredentials:true})
+        axios.get(`${API_URL}/profile/${loggedInUser._id}/mybids`, {}, {withCredentials:true})
         .then((response)=>{
             console.log(response.data)
             this.setState({
@@ -29,7 +30,7 @@ export default class MybidsChart extends Component {
     }
     getsaleInfo=()=>{
         const {loggedInUser} = this.props
-        axios.get(`http://localhost:5000/api/profile/sale/${loggedInUser._id}`)
+        axios.get(`${API_URL}/profile/sale/${loggedInUser._id}`)
         .then((mybids)=>{
             mybids.map((bid)=>{
                 return bid.sale_id

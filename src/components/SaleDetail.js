@@ -3,6 +3,7 @@ import axios from 'axios'
 import moment from 'moment'
 import {Card, Button} from 'react-bootstrap'
 import BidChart from './BidChart'
+import {API_URL} from '../config'
 export default class SaleDetail extends Component {
 
     state={
@@ -27,7 +28,7 @@ export default class SaleDetail extends Component {
         this.handleSaleEnd()
         let saleId = this.props.match.params.saleid
         console.log(this.props.match.params.saleid)
-        axios.get(`http://localhost:5000/api/detail/${saleId}`)
+        axios.get(`${API_URL}/detail/${saleId}`)
             .then((response)=>{
                 console.log(new Date(), new Date(response.data.expiring_date))
                 this.setState({
@@ -56,7 +57,7 @@ export default class SaleDetail extends Component {
 
     getName = ()=>{
         const {sale} = this.state
-        axios.get(`http://localhost:5000/api/sale/username/${sale.seller}`)
+        axios.get(`${API_URL}/sale/username/${sale.seller}`)
         .then((response)=>{ 
             console.log(response.data)
             this.setState({
@@ -69,7 +70,7 @@ export default class SaleDetail extends Component {
 
     getAllBids = () =>{
         const {sale} = this.state
-        axios.get(`http://localhost:5000/api/sale/${sale._id}`)
+        axios.get(`${API_URL}/sale/${sale._id}`)
         .then((response)=>{
             this.setState({
                 bidList: [...response.data]
@@ -89,7 +90,7 @@ export default class SaleDetail extends Component {
         bid_price: bid_price.value
     }
 
-    axios.post(`http://localhost:5000/api/sale/${sale._id}`, newBid, {withCredentials:true})
+    axios.post(`${API_URL}/sale/${sale._id}`, newBid, {withCredentials:true})
         .then((response)=>{
             this.setState({
                 bidList: [response.data,...bidList]

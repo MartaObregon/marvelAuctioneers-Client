@@ -16,6 +16,7 @@ import Saleslist from './components/Saleslist'
 import WelcomeBox from './components/WelcomeBox'
 import AddSale from './components/AddSale'
 import SaleDetail from './components/SaleDetail'
+import {API_URL} from './config'
 
 class App extends Component {
 
@@ -35,7 +36,7 @@ class App extends Component {
   }
 
   getallsales = () => {
-    axios.get('http://localhost:5000/api/search')
+    axios.get(`${API_URL}/search`)
       .then((response)=>{
         this.setState({
           salesList: [...response.data]
@@ -70,7 +71,7 @@ class App extends Component {
   handleRegister = (e) =>{
     e.preventDefault();
     const {email, username, password} = e.target
-    axios.post('http://localhost:5000/api/register', {
+    axios.post(`${API_URL}/register`, {
       email: email.value,
       username: username.value,
       password: password.value
@@ -97,7 +98,7 @@ class App extends Component {
     const {email, password} = e.target
     
 
-    axios.post('http://localhost:5000/api/login', {
+    axios.post(`${API_URL}/login`, {
       email: email.value,
       password: password.value
     },{withCredentials:true})
@@ -118,7 +119,7 @@ class App extends Component {
 
   handleLogOut = () =>{
     console.log('logout')
-    axios.post('http://localhost:5000/api/logout', {}, {withCredentials:true})
+    axios.post(`${API_URL}/logout`, {}, {withCredentials:true})
       .then(()=>{
         this.setState({
           loggedInUser: null,
@@ -132,7 +133,7 @@ class App extends Component {
     const {loggedInUser} = this.state
     
     console.log(e.target.wallet_credit.value)
-    axios.patch(`http://localhost:5000/api/profile/edit`, {
+    axios.patch(`${API_URL}/profile/edit`, {
       wallet_credit: e.target.wallet_credit.value,
     },{withCredentials:true})
       .then((response)=>{
@@ -160,7 +161,7 @@ class App extends Component {
       image_url: image_url.value
     }
 
-    axios.post('http://localhost:5000/api/profile/add-sale', newSale, {withCredentials:true})
+    axios.post(`${API_URL}/profile/add-sale`, newSale, {withCredentials:true})
       .then((response)=>{
         console.log(response.data)
         this.setState({
