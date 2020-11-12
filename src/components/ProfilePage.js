@@ -11,28 +11,9 @@ import MybidsChart from './MybidsChart'
  class ProfilePage extends Component {
 
 
-    state = {
-        user: this.props.loggedInUser
-    }
-
-    // componentDidMount(){
-    //     let id = this.props.match.params.id
-    //     console.log(this.props)
-    //     axios.get(`http://localhost:5000/api/profile/${id}`)
-    //         .then((response) => {
-    //             this.setState({
-    //                 user: response.data
-    //             })
-    //         })
-    // }
-
-
-
-
-
 
     render() {
-        const {loggedInUser, onAddCredit, showWelcome} = this.props
+        const {loggedInUser, onAddCredit, showWelcome, updatedUser} = this.props
 
 
         if(!loggedInUser){
@@ -45,16 +26,16 @@ import MybidsChart from './MybidsChart'
                 <Card className ="card-info1" >
                     <Card.Img variant="top" src="/images/iron-pic.jpg" />
                     <Card.Body>
-                        <Card.Title>Welcome back  {loggedInUser.username}!</Card.Title>
+                        <Card.Title>Welcome back  {updatedUser.username}!</Card.Title>
                         
-                        <p>your email addres: {loggedInUser.email}</p>
+                        <p>your email addres: {updatedUser.email}</p>
 
                     <Card className = "wallet-container"> 
                         <Card.Header className="title-wallet">My Wallet</Card.Header>
                         <Card.Body className="card-body">
                             
                             <Card.Text>
-                            Your credit balance: {loggedInUser.wallet_credit}$
+                            Your credit balance: {updatedUser.wallet_credit}$
 
                             </Card.Text>
 

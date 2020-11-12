@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import axios from 'axios'
+import { Link, Redirect } from 'react-router-dom'
 import moment from 'moment'
 import {Card, Button} from 'react-bootstrap'
 import BidChart from './BidChart'
@@ -13,6 +14,7 @@ export default class SaleDetail extends Component {
         showBidInput: false,
         bidList: [],
         seller: {},
+        winning_buyer: {}
 
     }
 
@@ -35,10 +37,11 @@ export default class SaleDetail extends Component {
                 this.setState({
                     saleOpen: new Date () < new Date(response.data.expiring_date) ,
                     sale: response.data,
+                    winning_buyer: response.data.winning_buyer
                     
                 })
                 this.getAllBids()
-                this.handleSaleEnd()
+                
             })
         
             
@@ -49,18 +52,7 @@ export default class SaleDetail extends Component {
     }
 
 
-    handleSaleEnd = () =>{
-        
-        const {sale, saleOpen, bidList} = this.state
-        if(!saleOpen){
-            axios.patch(`${API_URL}/close/${sale._id}`)
-            .then((response)=>{
-                console.log(bidList)
-                console.log('HEYYYYY', response.data)
-            })
-        }
-        
-    }
+    
 
     handleShowBidInput = ()=>{
         this.setState({
@@ -113,7 +105,14 @@ export default class SaleDetail extends Component {
     }
 
     render() {
-        const {sale, showBidChart, seller, bidList, onShowBidInput, showBidInput, saleOpen} = this.state
+        const {sale, showBidChart, seller, bidList, onShowBidInput, showBidInput, saleOpen, winning_buyer} = this.state
+        const {loggedInUser} = this.props
+        if(!loggedInUser){
+            
+            return <Redirect to={'/'}/>
+        }
+
+        
         return (
             <div style={{width:"700px"}}>
                 <img alt="comic" src = {sale.image_url} ></img>
@@ -146,9 +145,17 @@ export default class SaleDetail extends Component {
                         <>
                         <div>
                             <h3 style={{backgroundColor:"red", color: "white"}}>SALE CLOSED</h3>
-                            <p>Sold for {sale.winning_bid}$ to {sale.winning_buyer}</p>
+                            <p>Sold for {sale.winning_bid}$ to {winning_buyer.username}</p>
                         </div>
+                        {
+                            loggedInUser._id === winning_buyer._id 
+                            ? (
+                                <button><Link to={`/detail/${sale._id}/checkout`}>Go to Checkout</Link></button>
+                            ):(null)
+                        }
                         </>
+
+                        
                     )
                 }
                 

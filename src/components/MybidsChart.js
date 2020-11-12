@@ -1,44 +1,43 @@
 import Axios from 'axios'
 import React, { Component } from 'react'
-import {Table} from 'react-bootstrap'
+import {NavLink, Table} from 'react-bootstrap'
 import axios from 'axios'
 import {Link} from 'react-router-dom'
 import {API_URL} from '../config'
+import moment from 'moment'
 
 export default class MybidsChart extends Component {
 
 
     state={
-        myBidList: [],
-        salesBided: [],
+        mybidsList: [],
         showCheckOut: false,
-        updatedUser: this.props.loggedInUser
+        updatedUser: this.props.loggedInUser,
+        closedBidList: []
+        
     }
 
     componentDidMount(){
-        this.getAllMyBids()
-        this.getsaleInfo()
+        
+        this.getsales()
+        
     }
 
-    getAllMyBids = () =>{
+    getsales= () => {
         const {loggedInUser} = this.props
-        axios.get(`${API_URL}/profile/${loggedInUser._id}/mybids`, {}, {withCredentials:true})
+        axios.get(`${API_URL}/profile/${loggedInUser._id}/bids-info`)
         .then((response)=>{
-            console.log(response.data)
+            
             this.setState({
-                myBidList: [...response.data]
+                mybidsList : [...response.data]
             })
         })
+
+        
     }
-    getsaleInfo=()=>{
-        const {loggedInUser} = this.props
-        axios.get(`${API_URL}/profile/sale/${loggedInUser._id}`)
-        .then((mybids)=>{
-            mybids.map((bid)=>{
-                return bid.sale_id
-            })
-        })
-    }
+    
+    
+
 
     handleShowChekOutBox = () =>{
         const {loggedInUser} = this.props
@@ -48,78 +47,82 @@ export default class MybidsChart extends Component {
           
     }
 
-    handlePayment = () =>{
-        const {loggedInUser} = this.props
-        console.log(this.state.salesBided)
+    // handlePayment = () =>{
+    //     const {loggedInUser} = this.props
+    //     console.log(this.state.salesBided)
 
-        axios.patch(`${API_URL}/profile/sale/payment`)
-        .then((response)=>{
-            console.log(response.data)
+    //     axios.patch(`${API_URL}/profile/sale/payment`)
+    //     .then((response)=>{
+    //         console.log(response.data)
             
-            this.setState({
-                updatedUser: response.data
-            })
-        })
-    }
+    //         this.setState({
+    //             updatedUser: response.data
+    //         })
+    //     })
+    // }
 
     render() {
-        const {salesList, loggedInUser} = this.props
-        const {myBidList, showCheckOut} = this.state
+        const {loggedInUser} = this.props
+        const {mybidsList, showCheckOut, salesBided} = this.state
         return (
             <div>
-                <Table striped bordered hover>
+
+                    {
+                        mybidsList ? (
+                            <Table striped bordered hover>
                     <thead>
                         <tr>
-                        <th>#</th>
-                        <th>Sale Id</th>
+                        
                         <th>Title</th>
                         <th>Starting price</th>
                         <th>Expiring date</th>
                         <th>My bid</th>
+                        
                         </tr>
                     </thead>
                     <tbody>
+                        
                         {
-                           myBidList.map((bid)=>{return(
-                                <tr>
-                                <td></td>
-                                <td><Link to={`/detail/${bid.sale_id}`}>{bid.sale_id}</Link></td>
-                                <td>Title goes here</td>
-                                <td>Starting price goes here</td>
-                                <td>Expiring date goes here</td>
-                                <td>{bid.bid_price}$</td>
-                                {
-                                    bid.winner ? (
-                                        <>
-                                        <td>
-                                            Congratz! you won the sale!
-                                            <button onClick={this.handleShowChekOutBox} style={{backgroundColor:"green", color:'white'}}>Go to Checkout</button>
-                                        </td>
-                                        </>
-                                    ) : (null)
-                                }
+                            mybidsList.map((bid)=>{return (
                                 
-                        {
-                                showCheckOut ? (
-                                    <div>
-                                        <p>To pay {bid.bid_price}$</p>
-                                        <p>Current Balance: {loggedInUser.wallet_credit}$</p>
-                                        <button onClick={this.handlePayment}>Complete Payment</button>
-                                    </div>
-                                ): (null)
+                                    <tr>
+                                    <td><Link to={`/detail/${bid.sale_id._id}`}>{bid.sale_id.title}</Link></td>
+                                    <td>{bid.sale_id.starting_price}$</td>
+                                    <td>{moment(bid.sale_id.expiring_date).format('MMMM Do YYYY, h:mm a')}</td>
+                                    <td>{bid.bid_price}$</td>
+                                    {
+                                        bid.winner && bid.sale_id.close ? (
+                                            <>
+                                            <p style={{color:"red"}}>Sale Closed</p>
+                                            <Link to={`/detail/${bid.sale_id._id}`}>See Results</Link>
+                                            </>
+                                        ): (null)
+                                    }
+                                    {
+                                        !bid.winner && bid.sale_id.close? (<p style={{color:"red"}}>Sale Closed</p>) : (null)
+                                    }
+                                    </tr>
+                        
+                            )})
+
                         }
+                                            <tr>
+                                            <td></td>
+                                            <td colSpan="2"></td>
+                                            <td></td>
+                                            </tr>
+                                            <tr>
+                                            <td></td>
+                                            <td colSpan="2"></td>
+                                            <td></td>
+                                            </tr>
+                                        </tbody>
+                                        </Table>
+                                            ) : (null)
+                    }
 
-                        </tr>
-                           )}) 
-                        }
-                    
-                      
-                    </tbody>
-                    </Table>
 
-                    
 
-                   
             </div>
         )
     }

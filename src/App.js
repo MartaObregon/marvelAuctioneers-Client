@@ -17,6 +17,7 @@ import WelcomeBox from './components/WelcomeBox'
 import AddSale from './components/AddSale'
 import SaleDetail from './components/SaleDetail'
 import {API_URL} from './config'
+import CheckOut from './components/CheckOut'
 
 class App extends Component {
 
@@ -30,6 +31,7 @@ class App extends Component {
     showUserName: false,
     showWelcome: false,
     salesList: [],
+    updatedUser: null,
     
   
     
@@ -44,8 +46,16 @@ class App extends Component {
       })
   }
   componentDidMount(){
+
     
     this.getallsales()
+    
+    axios.get(`${API_URL}/user`)
+    .then((response)=>{
+      this.setState({
+        updatedUser: response.data
+      })
+    })
   }
 
   handleShowLogin = () => {
@@ -105,6 +115,7 @@ class App extends Component {
       .then((response)=>{
         this.setState({
           loggedInUser: response.data,
+          updatedUser: response.data,
           showLoginForm: false,
           showRegisterForm: false,
           showWelcome: false,
@@ -139,11 +150,35 @@ class App extends Component {
       .then((response)=>{
         console.log(response.data)
         this.setState({
-          loggedInUser: response.data
+          updatedUser: response.data
         }, ()=>{this.props.history.push(`/profile/${loggedInUser._id}`)})
       })
  
   }
+
+  handlePayment = (saleid)=>{
+    const{loggedInUser}= this.state
+    let userId = loggedInUser._id
+    
+    axios.patch(`${API_URL}/detail/${userId}/${saleid}/payment`, {}, {withCredentials:true})
+    .then((response)=>{
+      console.log('hiyaa', response.data)
+
+      this.setState({
+        updatedUser: response.data
+      }, ()=>{this.props.history.push(`/profile/${loggedInUser._id}`)})
+    
+    })
+
+    axios.patch(`${API_URL}/close/${saleid}`)
+      .then((response)=>{
+        console.log(response.data)
+      })
+    
+
+}
+
+
 
   handleAddSale = (e) =>{
     e.preventDefault()
@@ -172,13 +207,14 @@ class App extends Component {
   }
 
   render() {
-    const {loggedInUser, showLoginForm, showRegisterForm, showWelcome, salesList} = this.state
+    const {loggedInUser, updatedUser, showLoginForm, showRegisterForm, showWelcome, salesList} = this.state
 
     return (
       <div>
         <Nav onShowLogin ={this.handleShowLogin} onShowRegister = {this.handleShowRegister}
         loggedInUser = {loggedInUser}
         onLogOut = {this.handleLogOut}
+        updatedUser={updatedUser}
         />
 
         <div>
@@ -215,19 +251,28 @@ class App extends Component {
           <Saleslist salesList = {salesList}/>
           </>)
           }}/>
-          <Route path = "/detail/:saleid" render={(routeProps)=>{return <SaleDetail {...routeProps}/>}}/>
+          <Route exact path = "/detail/:saleid" render={(routeProps)=>{return <SaleDetail {...routeProps}
+            loggedInUser = {loggedInUser}
+          />}}/>
          
-          
+         <Route  path = "/detail/:saleid/checkout" render={(routeProps)=>{return <CheckOut {...routeProps} loggedInUser={loggedInUser}
+         updatedUser = {updatedUser}
+         onPayment = {this.handlePayment} />}}/>
           <Route exact path="/profile/:id" render={(routeProps)=>{
             return <ProfilePage  loggedInUser = {loggedInUser}
+            updatedUser = {updatedUser}
             onAddCredit = {this.handleAddCredit}
             {...routeProps}/>
           }}/>
+          
          <Route path = "/profile/:id/create-sale" render={()=>{return <AddSale 
          loggedInUser = {loggedInUser}
          salesList = {salesList}
          onAddSale = {this.handleAddSale}
          />}}/>
+         
+         
+
             
         </Switch>
           
