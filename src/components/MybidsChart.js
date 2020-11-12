@@ -6,6 +6,7 @@ import {Link} from 'react-router-dom'
 import {API_URL} from '../config'
 import moment from 'moment'
 
+
 export default class MybidsChart extends Component {
 
 
@@ -47,19 +48,7 @@ export default class MybidsChart extends Component {
           
     }
 
-    // handlePayment = () =>{
-    //     const {loggedInUser} = this.props
-    //     console.log(this.state.salesBided)
-
-    //     axios.patch(`${API_URL}/profile/sale/payment`)
-    //     .then((response)=>{
-    //         console.log(response.data)
-            
-    //         this.setState({
-    //             updatedUser: response.data
-    //         })
-    //     })
-    // }
+   
 
     render() {
         const {loggedInUser} = this.props

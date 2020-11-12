@@ -22,10 +22,11 @@ import MybidsChart from './MybidsChart'
         }
 
         return (
-            <div className="container1">
+            <div className="container2">
+            
                 <Card className ="card-info1" >
                     <Card.Img variant="top" src="/images/iron-pic.jpg" />
-                    <Card.Body>
+                    <Card.Body className="card-body">
                         <Card.Title>Welcome back  {updatedUser.username}!</Card.Title>
                         
                         <p>your email addres: {updatedUser.email}</p>
@@ -40,23 +41,24 @@ import MybidsChart from './MybidsChart'
                             </Card.Text>
 
                                 <form onSubmit= {onAddCredit}>
-                                <InputGroup className="mb-3">
+                                <InputGroup className="input-group">
                                 <InputGroup.Prepend>
                                 <InputGroup.Text >$</InputGroup.Text>
                                 </InputGroup.Prepend>
-                                <FormControl name="wallet_credit"/>
+                                <input className="input-credit" name="wallet_credit"/>
                                 <InputGroup.Append>
                                 <InputGroup.Text>.00</InputGroup.Text>
                                 </InputGroup.Append>
                                 
-                                <Button  type = "submit" variant="primary">Add Credit</Button>
+                                
                                 </InputGroup>
+                                <Button style={{color:'white'}} variant="warning" type = "submit" className="credit-btn" >Add Credit</Button>
                                 </form>
 
                         </Card.Body>
                         
                     </Card>
-                     <Button className="addSale-btn"><Link to= {`/profile/${loggedInUser._id}/create-sale`}>
+                     <Button style={{color:'white'}} variant="danger" className="addSale-btn"><Link to= {`/profile/${loggedInUser._id}/create-sale`}>
                         Create Sale</Link></Button>
                     </Card.Body>
 
@@ -64,7 +66,7 @@ import MybidsChart from './MybidsChart'
                
                 </Card>
                 
-                <h2>My Bids</h2>
+                
                 <MybidsChart loggedInUser={loggedInUser}/>
 
                

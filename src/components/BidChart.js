@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
 import AddBid from './AddBid'
-import {Table} from 'react-bootstrap'
+import {Table, Button} from 'react-bootstrap'
 import moment from 'moment'
+import './SaleDetail.css'
 
 export default class BidChart extends Component {
 
@@ -11,8 +12,8 @@ export default class BidChart extends Component {
         const {sale, seller, bidList, onShowBidInput, onAddBid, showBidInput} = this.props
         
         return (
-            <div>
-                <Table striped bordered hover variant="dark">
+            <div style={{width:'100%'}}>
+                <Table striped bordered hover variant="dark" style={{margin:'0px'}}>
                 <thead>
                     <tr>
                     <th>#</th>
@@ -60,7 +61,7 @@ export default class BidChart extends Component {
                     </tr>
                 </tbody>
             </Table>
-            <button onClick={onShowBidInput}>Bid</button>
+            <Button variant="danger" onClick={onShowBidInput} style={{width:'100%'}}>Bid</Button>
 
             {
                 showBidInput? (<AddBid onAddBid = {onAddBid}/>):(null)

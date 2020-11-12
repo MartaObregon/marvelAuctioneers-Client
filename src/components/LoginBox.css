@@ -1,19 +1,21 @@
-.formlog{
-    
-    display:flex;
+
+.box-container{
+    /* max-width: 500px; */
+    display: flex;
     justify-content: center;
-    flex-direction: column;
     align-items: center;
-}
-.inputlog{
-    height: 40%;
-    width: 90%;
-    padding: 3px;
+    
+    margin: 30px;
+    
+    
+
+  }
+
+.box-container>img{
+    margin-right: 10px;
 }
 
+
 .logbtn{
-    background-color: red;
-    border: red;
-    width: 50%;
-    padding:2px;
+    background-color: #000042 ;
 }

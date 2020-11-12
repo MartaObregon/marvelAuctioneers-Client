@@ -6,6 +6,7 @@ import './LoginBox.css'
 export default function RegisterBox(props) {
     return (
         <div className="box-container">
+            <img src="../images/spidey.jpg" style={{width:'300px'}}></img>
             <Form  className="formlog" onSubmit = {props.onRegister}>
                         <Form.Group controlId="formBasicEmail">
                             <Form.Label>Email address</Form.Label>

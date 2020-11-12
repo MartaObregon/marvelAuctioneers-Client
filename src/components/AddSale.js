@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { Redirect } from 'react-router-dom'
 import {Form, InputGroup, Button} from 'react-bootstrap'
+import './AddSale.css'
 
 export default class AddSale extends Component {
     render() {
@@ -12,8 +13,10 @@ export default class AddSale extends Component {
         //  }
       
         return (
-            <div>
+            <div className="box-container1">
+            <img src="/images/strange.jpg" style={{width:'100%', maxHeight:'530px', maxWidth:'1400px'}} alt="strange"></img>
                 <h2>Create a new sale</h2>
+                
                 <Form onSubmit={this.props.onAddSale}>
                     <Form.Group controlId="exampleForm.ControlInput1">
                         <Form.Label>Title</Form.Label>

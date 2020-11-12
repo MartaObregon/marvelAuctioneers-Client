@@ -11,42 +11,45 @@ export default function Saleslist(props) {
 
     return (
         <div className="container1">
-            <h1>ONGOING SALES</h1>
-
+            <Container fluid="md">
+            <Row>             
             
                 
                 {
                     props.salesList.map((sale)=>{
                         return (
-                        <Container fluid="md">
-                            <Row>
-                                <Col>
+                            
+                                <Col className="col1">
+
                                 <Card className="eachcard">
-                            <Card.Img variant="top" src={sale.image_url} />
-                            <Card.Body>
-                            <Card.Title>{sale.title}</Card.Title>
-                            <Card.Text>
-                                <p>Release year: {sale.release_year}</p>   
-                                <p>Starting price: {sale.starting_price}$</p>
-                                <p>Sale expiring: 
+                            <Card.Img variant="top" src={sale.image_url} 
+                                className="comic-img"
+                            />
+                            <Card.Body className="card-body">
+                            <Card.Title className="comic-title">{sale.title}({sale.release_year})</Card.Title>
+                            <Card.Text className="comic-text">
+                                  
+                                <strong>From: {sale.starting_price}$</strong>
+                                <div>Sale expiring: 
+                                <br></br>
                                 
                                    {moment(sale.expiring_date).format('MMMM Do YYYY, h:mm a')}
                                 
-                                </p>
+                                </div>
                             </Card.Text>
+                            
                             </Card.Body>
-                            <Card.Footer className="footer">
-                            <Button className=""><Link to = {`/detail/${sale._id}`}>See Details</Link></Button>
-                            </Card.Footer>
+                            <Button className="comic-btn"><Link to = {`/detail/${sale._id}`}>See Details</Link></Button>
                         </Card>
-                                </Col>
-                            </Row>
-                        </Container>
+                        </Col>
+                           
+                                
                         
                         )
                     })
                 }
-                
+                </Row>
+                        </Container>
                 
            
            

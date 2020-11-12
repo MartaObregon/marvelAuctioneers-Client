@@ -210,41 +210,21 @@ class App extends Component {
     const {loggedInUser, updatedUser, showLoginForm, showRegisterForm, showWelcome, salesList} = this.state
 
     return (
-      <div>
+      <div className="body">
         <Nav onShowLogin ={this.handleShowLogin} onShowRegister = {this.handleShowRegister}
         loggedInUser = {loggedInUser}
         onLogOut = {this.handleLogOut}
         updatedUser={updatedUser}
+       
+        
         />
 
-        <div>
-
-          {
-            showWelcome ?(<><WelcomeBox/> </>) : (null)
-          }
-          {
-           showLoginForm ? (
-              <>
-              <LoginBox onLogin = {this.handleLogin}/>
-              <Banner/>
-              </>
-            ) : (null)
-          }
-          {
-            showRegisterForm ? (
-              <>
-              <RegisterBox onRegister = {this.handleRegister}/>
-              <Banner/>
-              </>
-            ):(null)
-
-          }
-        </div>
+        
      
         
-        
         <Switch>
-        
+          <Route path = '/login' render = {()=>{return <LoginBox onLogin = {this.handleLogin}/> }}/>
+          <Route path = '/register' render = {()=>{return <RegisterBox onRegister = {this.handleRegister}/> }}/>
           <Route exact path="/" render= {()=>{return (
             <>
           <Banner/>

@@ -1,5 +1,6 @@
 import React from 'react'
 import {InputGroup, FormControl, Button} from 'react-bootstrap'
+import './SaleDetail.css'
 
 
 
@@ -11,15 +12,16 @@ export default function AddBid(props) {
             <InputGroup className="mb-3">
                 
                 <FormControl
-                aria-label="Default"
-                aria-describedby="inputGroup-sizing-default"
+                
+                
                 type="number"
                 name="bid_price"
+                style={{width:'30px'}}
                 />
                 <InputGroup.Prepend>
                 <InputGroup.Text id="inputGroup-sizing-default">$</InputGroup.Text>
                 </InputGroup.Prepend>
-                <Button type="submit">Submit</Button>
+                <Button  variant ="danger" type="submit">Submit</Button>
             </InputGroup>
             </form>
         </div>

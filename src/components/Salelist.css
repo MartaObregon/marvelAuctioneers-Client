@@ -1,4 +1,48 @@
+.container1{
+    max-width: 1000px;
+    margin: auto;
+}
+.col1{
+    width: 90%;
+    margin-bottom: 100px;
+}
+.eachcard{
+    height: 100%;
+    min-width: 200px;
+    margin: 10px;
+    overflow: hidden;
+    
+    
+    
+}
+.comic-img{
+    /* height: 70%; */
+    width: 100%;
+    
+}
+.comic-body{
+    width: 30%;
+    height: 10%;
+    
+}
+.comic-btn{
+    background-color:  #ed1d24;
+    border: #ed1d24 ;
+}
+.comic-btn>a{
+    color:white;
+}
 
+.comic-title{
+    font-size: large;
+    
+}
+
+
+.comic-text>div{
+    font-size: medium;
+    color: grey;
+}
 
 .footer{
     display: flex;

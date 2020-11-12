@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import './SaleDetail.css'
 import axios from 'axios'
 import { Link, Redirect } from 'react-router-dom'
 import moment from 'moment'
@@ -114,22 +115,19 @@ export default class SaleDetail extends Component {
 
         
         return (
-            <div style={{width:"700px"}}>
+            <div className="detail">
                 <img alt="comic" src = {sale.image_url} ></img>
                 
-                    {
-                        this.state.saleOpen ? <p>'Open'</p> : <p>'Closed'</p>
-                    }
-                
-                <h1>{sale.title}</h1>
+                <div className="detail-desc">
+                <h1>{sale.title}, {sale.release_year}</h1>
                 <h2><small>Starting price</small> {sale.starting_price}$</h2>
                 <h3>Expiring:<small> {moment(sale.expiring_date).format('MMMM Do YYYY, h:mm a')}</small></h3>
+                <p>State: {sale.state}</p>
                 <p>{sale.description}</p>
-
                 {
                     saleOpen ? (
-                    <div>
-                    <button onClick={this.handleShowBidChart}>Show BidChart</button>
+                    <div style={{display:'flex', flexDirection:"column",alignItems:'center'}}>
+                    <Button variant="warning" style={{width:'100%'}} onClick={this.handleShowBidChart}>Show BidChart</Button>
 
                     {
                         showBidChart ? (<BidChart sale={sale}
@@ -144,13 +142,13 @@ export default class SaleDetail extends Component {
                     ) : (
                         <>
                         <div>
-                            <h3 style={{backgroundColor:"red", color: "white"}}>SALE CLOSED</h3>
-                            <p>Sold for {sale.winning_bid}$ to {winning_buyer.username}</p>
+                            <h3 style={{backgroundColor:"red", color: "white", textAlign:'center'}}>SALE CLOSED</h3>
+                            <h2>Sold for {sale.winning_bid}$ to {winning_buyer.username}</h2>
                         </div>
                         {
                             loggedInUser._id === winning_buyer._id 
                             ? (
-                                <button><Link to={`/detail/${sale._id}/checkout`}>Go to Checkout</Link></button>
+                                <Button><Link to={`/detail/${sale._id}/checkout`}>Go to Checkout</Link></Button>
                             ):(null)
                         }
                         </>
@@ -158,6 +156,10 @@ export default class SaleDetail extends Component {
                         
                     )
                 }
+                </div>
+                
+
+                
                 
                 
             </div>

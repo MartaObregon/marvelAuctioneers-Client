@@ -1,10 +1,17 @@
 .navbar{
-    background-color: black;
-    position:relative;
+    
+    
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
 }
 
 .logoMA{
-    width: 60%;
+    width: 50%;
+    margin:0;
+    
+    
 }
 
 .auth-btn{
@@ -33,21 +40,31 @@
     width: 30%;
     align-items: center;
 }
-.container-loggedIn>p{
+.cont>p{
     color:white;
-    margin-top: 13px;
-    margin-right: 15px;
+    
 }
-.container-loggedIn>button{
+.cont>button{
     background-color: red;
     border: red;
-    width: 30%;
-    padding:0px;
+    height: 30px;
+    padding: 0;
+    margin-left: 10px;
+    
    
 }
 .container-loggedIn>button>a{
     color:white;
     font-size: 90%;
-    padding: 0px;
+   
     text-decoration: none;
+}
+.cont>a{
+    margin-right: 10px;
+}
+.cont{
+    width: 120%;
+    display: flex;
+    /* justify-content: space-around; */
+
 }
