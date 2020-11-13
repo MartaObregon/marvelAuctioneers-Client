@@ -6,7 +6,7 @@ import './App.css'
 import {withRouter} from 'react-router'
 import {Switch, Link, Route} from 'react-router-dom'
 import ProfilePage from './components/ProfilePage'
-import {Alert} from 'react-bootstrap'
+
 
 
 
@@ -14,7 +14,7 @@ import 'bootstrap/dist/css/bootstrap.css'
 import axios from 'axios'
 import Banner from './components/Banner'
 import Saleslist from './components/Saleslist'
-import WelcomeBox from './components/WelcomeBox'
+
 import AddSale from './components/AddSale'
 import SaleDetail from './components/SaleDetail'
 import {API_URL} from './config'
@@ -41,7 +41,7 @@ class App extends Component {
   }
 
   getallsales = () => {
-    axios.get(`${API_URL}/search`)
+    axios.get(`${API_URL}/search`, {withCredentials:true})
       .then((response)=>{
         this.setState({
           salesList: [...response.data]
@@ -53,7 +53,7 @@ class App extends Component {
     
     this.getallsales()
     
-    axios.get(`${API_URL}/user`)
+    axios.get(`${API_URL}/user`, {withCredentials:true})
     .then((response)=>{
       this.setState({
         updatedUser: response.data
@@ -185,13 +185,15 @@ class App extends Component {
     
     })
 
-    axios.patch(`${API_URL}/close/${saleid}`)
+    axios.patch(`${API_URL}/close/${saleid}`, {}, {withCredentials:true})
       .then((response)=>{
         console.log(response.data)
       })
     
 
 }
+
+
 
 
 
@@ -234,13 +236,7 @@ class App extends Component {
         
         />
 
-        {/* {
-          errorDetail?(
-            <Alert variant='warning'>
-            {errorDetail}
-          </Alert>
-          ):(null)
-        } */}
+       
      
         
         <Switch>

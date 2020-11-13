@@ -4,18 +4,26 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    
-    margin: 30px;
-    
+    width: 100%;
+    margin-top: 20px;
     
 
   }
 
 .box-container>img{
     margin-right: 10px;
+    width: 50%;
+    max-width: 300px;
+}
+.formlog{
+    width: 30%;
+    max-width: 300px;
 }
 
-
+.inputlog{
+    width: 20%;
+}
 .logbtn{
     background-color: #000042 ;
+    width: 130px;
 }

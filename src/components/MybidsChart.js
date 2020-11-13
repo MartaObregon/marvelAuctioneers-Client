@@ -1,6 +1,6 @@
-import Axios from 'axios'
+
 import React, { Component } from 'react'
-import {NavLink, Table, Container} from 'react-bootstrap'
+import {Table, Container} from 'react-bootstrap'
 import axios from 'axios'
 import {Link} from 'react-router-dom'
 import {API_URL} from '../config'
@@ -28,7 +28,7 @@ export default class MybidsChart extends Component {
 
     getsales= () => {
         const {loggedInUser} = this.props
-        axios.get(`${API_URL}/profile/${loggedInUser._id}/bids-info`)
+        axios.get(`${API_URL}/profile/${loggedInUser._id}/bids-info`, {withCredentials:true})
         .then((response)=>{
             
             this.setState({
@@ -43,7 +43,7 @@ export default class MybidsChart extends Component {
 
 
     handleShowChekOutBox = () =>{
-        const {loggedInUser} = this.props
+        
         this.setState({
             showCheckOut: true,
         })

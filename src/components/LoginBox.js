@@ -5,7 +5,7 @@ import './LoginBox.css'
 export default function LoginBox(props) {
     return (
         <div className="box-container">
-            <img src="../images/cap1.jpg" style={{width:'300px'}}></img>
+            <img src="../images/cap1.jpg" ></img>
             <Form className="formlog" onSubmit = {props.onLogin}>
                 <Form.Group controlId="formBasicEmail">
                     <Form.Label>Email address</Form.Label>
