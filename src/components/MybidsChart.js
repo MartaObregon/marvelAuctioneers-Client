@@ -1,10 +1,12 @@
 import Axios from 'axios'
 import React, { Component } from 'react'
-import {NavLink, Table} from 'react-bootstrap'
+import {NavLink, Table, Container} from 'react-bootstrap'
 import axios from 'axios'
 import {Link} from 'react-router-dom'
 import {API_URL} from '../config'
 import moment from 'moment'
+
+
 
 
 export default class MybidsChart extends Component {
@@ -81,14 +83,27 @@ export default class MybidsChart extends Component {
                                     <td>{bid.bid_price}$</td>
                                     {
                                         bid.winner && bid.sale_id.close ? (
-                                            <>
-                                            <p style={{color:"red"}}>Sale Closed</p>
-                                            <Link to={`/detail/${bid.sale_id._id}`}>See Results</Link>
-                                            </>
+                                            <Container style={{backgroundColor:'green', textAlign:'center'}}>
+                                            <p style={{color:"white"}}>Sold to you</p>
+                                            <Link style={{color:'white', fontSize:'x-small'}} to={`/detail/${bid.sale_id._id}`}>See Results</Link>
+                                            </Container>
                                         ): (null)
                                     }
                                     {
-                                        !bid.winner && bid.sale_id.close? (<p style={{color:"red"}}>Sale Closed</p>) : (null)
+                                        !bid.winner && bid.sale_id.close? (
+                                            <Container style={{backgroundColor:'red', textAlign:'center'}}>
+                                            <p style={{color:"white"}}>Sale Closed</p>
+                                            <Link to={`/detail/${bid.sale_id._id}`} style={{color:'white', fontSize:'x-small'}}>See Results</Link>
+                                            </Container>
+                                            ) : (null)
+                                    }
+                                    {
+                                        !bid.sale_id.close ? (
+                                            <Container style={{backgroundColor:'orange', textAlign:'center'}}>
+                                            <p style={{color:"white"}}>Sale Open</p>
+                                            <Link style={{color:'white', fontSize:'x-small'}} to={`/detail/${bid.sale_id._id}`}>Bid</Link>
+                                            </Container>
+                                        ):(null)
                                     }
                                     </tr>
                         

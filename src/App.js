@@ -6,6 +6,7 @@ import './App.css'
 import {withRouter} from 'react-router'
 import {Switch, Link, Route} from 'react-router-dom'
 import ProfilePage from './components/ProfilePage'
+import {Alert} from 'react-bootstrap'
 
 
 
@@ -32,6 +33,8 @@ class App extends Component {
     showWelcome: false,
     salesList: [],
     updatedUser: null,
+    errorMessage: null,
+    errorDetail: null,
     
   
     
@@ -101,6 +104,12 @@ class App extends Component {
           
       )
       })
+      .catch((err)=>{
+        
+        this.setState({
+            errorMessage: err.response.data.error,
+        })
+    })
       
   }
   handleLogin = (e)=>{
@@ -124,6 +133,12 @@ class App extends Component {
         })
         
       })
+      .catch((err)=>{
+        console.log( err.response.data.error)
+        this.setState({
+            errorMessage: err.response.data.error,
+        })
+    })
 
   }
 
@@ -207,7 +222,7 @@ class App extends Component {
   }
 
   render() {
-    const {loggedInUser, updatedUser, showLoginForm, showRegisterForm, showWelcome, salesList} = this.state
+    const {loggedInUser, updatedUser, showLoginForm, showRegisterForm, showWelcome, salesList, errorMessage, errorDetail} = this.state
 
     return (
       <div className="body">
@@ -219,12 +234,20 @@ class App extends Component {
         
         />
 
-        
+        {/* {
+          errorDetail?(
+            <Alert variant='warning'>
+            {errorDetail}
+          </Alert>
+          ):(null)
+        } */}
      
         
         <Switch>
-          <Route path = '/login' render = {()=>{return <LoginBox onLogin = {this.handleLogin}/> }}/>
-          <Route path = '/register' render = {()=>{return <RegisterBox onRegister = {this.handleRegister}/> }}/>
+          <Route path = '/login' render = {()=>{return <LoginBox onLogin = {this.handleLogin} errorMessage={errorMessage}/> }}/>
+          <Route path = '/register' render = {()=>{return <RegisterBox onRegister = {this.handleRegister} 
+            errorMessage={errorMessage}
+          /> }}/>
           <Route exact path="/" render= {()=>{return (
             <>
           <Banner/>
@@ -233,6 +256,7 @@ class App extends Component {
           }}/>
           <Route exact path = "/detail/:saleid" render={(routeProps)=>{return <SaleDetail {...routeProps}
             loggedInUser = {loggedInUser}
+            errorDetail={errorDetail}
           />}}/>
          
          <Route  path = "/detail/:saleid/checkout" render={(routeProps)=>{return <CheckOut {...routeProps} loggedInUser={loggedInUser}

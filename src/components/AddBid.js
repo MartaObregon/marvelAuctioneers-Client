@@ -7,7 +7,8 @@ import './SaleDetail.css'
 export default function AddBid(props) {
     return (
         <div>
-            <p>Please enter your bid always surpassing the quantity of the latest</p>
+       
+            
             <form onSubmit = {props.onAddBid}>
             <InputGroup className="mb-3">
                 
@@ -23,6 +24,11 @@ export default function AddBid(props) {
                 </InputGroup.Prepend>
                 <Button  variant ="danger" type="submit">Submit</Button>
             </InputGroup>
+            {
+            props.errorMessage? (
+                <p style={{color:'red'}}>{props.errorMessage}</p>
+            ): (null)
+        }
             </form>
         </div>
     )

@@ -15,7 +15,10 @@ export default class SaleDetail extends Component {
         showBidInput: false,
         bidList: [],
         seller: {},
-        winning_buyer: {}
+        winning_buyer: {},
+        errorMessage: null,
+        errorDetail: this.props.errorDetail
+       
 
     }
 
@@ -44,11 +47,12 @@ export default class SaleDetail extends Component {
                 this.getAllBids()
                 
             })
-        
-            
-            
-        // this.getName()
-        
+            .catch((err)=>{
+                console.log( err.response.data.error)
+                this.setState({
+                    errorDetail: err.response.data.error,
+                })
+            })
 
     }
 
@@ -102,11 +106,17 @@ export default class SaleDetail extends Component {
                 bidList: [response.data,...bidList]
             })
         })
+        .catch((err)=>{
+            console.log(err.response.data.errorMessage)
+            this.setState({
+                errorMessage: err.response.data.errorMessage,
+            })
+        })
 
     }
 
     render() {
-        const {sale, showBidChart, seller, bidList, onShowBidInput, showBidInput, saleOpen, winning_buyer} = this.state
+        const {sale, showBidChart, seller, bidList, onShowBidInput, showBidInput, saleOpen, winning_buyer, errorMessage} = this.state
         const {loggedInUser} = this.props
         if(!loggedInUser){
             
@@ -136,6 +146,7 @@ export default class SaleDetail extends Component {
                                         onShowBidInput = {this.handleShowBidInput}
                                         showBidInput = {showBidInput}
                                         onAddBid = {this.handleAddBid}
+                                        errorMessage = {errorMessage}
                         />) : (null)
                     }
                     </div>
@@ -143,12 +154,24 @@ export default class SaleDetail extends Component {
                         <>
                         <div>
                             <h3 style={{backgroundColor:"red", color: "white", textAlign:'center'}}>SALE CLOSED</h3>
-                            <h2>Sold for {sale.winning_bid}$ to {winning_buyer.username}</h2>
+                            {
+                                loggedInUser._id === winning_buyer._id ? (
+                                    <>
+                                    <h2 style={{textAlign:'center'}}>Congratz! You won the fight for the highest bidder!</h2>
+                                    
+                                    </>
+                                ):(<h2>Sold for {sale.winning_bid}$ to {winning_buyer.username}</h2>)
+                            }
+                            
                         </div>
                         {
-                            loggedInUser._id === winning_buyer._id 
+                            loggedInUser._id === winning_buyer._id
+                            && !sale.close 
                             ? (
-                                <Button><Link to={`/detail/${sale._id}/checkout`}>Go to Checkout</Link></Button>
+                                <div style={{textAlign:'center'}}>
+                                <p>Complete the payment so we can ship your new Marvel comic</p>
+                                <Button variant="warning"><Link style={{color:'white'}}to={`/detail/${sale._id}/checkout`}>Go to Checkout</Link></Button>
+                                </div>
                             ):(null)
                         }
                         </>

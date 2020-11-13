@@ -33,7 +33,7 @@ export default class CheckOut extends Component {
         const{updatedUser} = this.props
 
         return (
-            <div style={{border:'3px solid black'}}>
+            <div style={{display: 'flex', justifyContent:'center', alignItems:'center', flexDirection: 'column'}}>
                 <p>x1 item({sale.title})</p>
                 <p>Total: {sale.winning_bid}$</p>
                 <p>Current Balance: {updatedUser.wallet_credit}$</p>

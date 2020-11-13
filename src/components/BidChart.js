@@ -9,7 +9,7 @@ export default class BidChart extends Component {
   
 
     render() {
-        const {sale, seller, bidList, onShowBidInput, onAddBid, showBidInput} = this.props
+        const {sale, seller, bidList, onShowBidInput, onAddBid, showBidInput, errorMessage} = this.props
         
         return (
             <div style={{width:'100%'}}>
@@ -64,7 +64,9 @@ export default class BidChart extends Component {
             <Button variant="danger" onClick={onShowBidInput} style={{width:'100%'}}>Bid</Button>
 
             {
-                showBidInput? (<AddBid onAddBid = {onAddBid}/>):(null)
+                showBidInput? (<AddBid onAddBid = {onAddBid}
+                    errorMessage={errorMessage}
+                />):(null)
             }
             </div>
         )

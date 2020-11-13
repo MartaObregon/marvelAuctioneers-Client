@@ -19,6 +19,11 @@ export default function LoginBox(props) {
                 <Button className="logbtn" type="submit">
                     Log in
                 </Button>
+                {
+            props.errorMessage? (
+                <p style={{color:'red'}}>{props.errorMessage}</p>
+            ): (null)
+        }
             </Form>
         </div>
     )

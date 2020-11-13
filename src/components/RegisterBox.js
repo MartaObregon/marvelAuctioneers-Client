@@ -26,6 +26,11 @@ export default function RegisterBox(props) {
                         <Button  className ="logbtn" variant="primary" type="submit">
                             Register
                         </Button>
+                        {
+                            props.errorMessage? (
+                <p style={{color:'red'}}>{props.errorMessage}</p>
+            ): (null)
+                        }
                 </Form>
         </div>
     )
