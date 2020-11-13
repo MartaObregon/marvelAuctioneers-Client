@@ -190,7 +190,7 @@ The url to your repository and to your deployed project
 
 [Server repository Link](https://github.com/jorgeberrizbeitia/backlog-quest-server)
 
-[Deployed App Link](https://backlog-quest.herokuapp.com/login)
+[Deployed App Link](https://marvelauctioneers.herokuapp.com/)
 
 ### Slides
 
