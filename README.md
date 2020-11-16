@@ -4,7 +4,7 @@
 
 ## Description
 
-Marvel Auctioneers is an online auctions app for Marvel comics. It allows users to sell and buy their domics.
+Marvel Auctioneers is an online auctions app for Marvel comics. It allows users to sell and buy their comics.
 
 ## User Stories
 
